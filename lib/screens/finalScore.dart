@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:unicef/components/menu.dart';
+import 'package:unicef/components/finalScore.dart';
 
-class MainMenu extends StatelessWidget {
+class FinalScore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -14,7 +14,7 @@ class MainMenu extends StatelessWidget {
         ),
         Container(
           margin: EdgeInsets.only(left: 300.0),
-          child: menu(context),
+          child: finalScore(context),
         )
       ],
     );

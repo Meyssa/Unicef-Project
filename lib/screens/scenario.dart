@@ -4,6 +4,7 @@ import 'package:unicef/model/story.dart';
 import 'package:unicef/model/stories.dart';
 import 'package:unicef/screens/quizView.dart';
 import 'package:unicef/model/page.dart';
+import 'package:unicef/screens/finalScore.dart';
 
 class Scenario extends StatefulWidget {
   @override
@@ -77,6 +78,7 @@ class ScenarioState extends State<Scenario> {
       j = 0;
       i++;
     }
+    _pages.add(FinalScore());
 
     return PageView(controller: controller, children: _pages);
 
