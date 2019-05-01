@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'components/dialog.dart';
-import 'screens/quizView.dart';
-import 'screens/scenario.dart';
+import 'screens/mainMenu.dart';
 
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight])
@@ -19,10 +17,18 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           textTheme: TextTheme(
               title: TextStyle(
-                  fontSize: 20.0,
+                  fontSize: 18.0,
                   color: Colors.black,
                   fontWeight: FontWeight.normal),
-              body1: TextStyle(fontSize: 20.0, color: Colors.black87)),
+              body1: TextStyle(fontSize: 22.0, color: Colors.black87),
+              button: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.normal),
+              subhead: TextStyle(
+                fontSize: 20.0,
+              ),
+              body2: TextStyle(fontSize: 22.0)),
           primaryColor: Colors.greenAccent[400]),
     );
   }
@@ -32,7 +38,8 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Scenario(0),
+      resizeToAvoidBottomInset: false,
+      body: MainMenu(),
     );
   }
 }

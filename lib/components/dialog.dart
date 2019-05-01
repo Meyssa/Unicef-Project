@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
-dialog(speech) {
+dialog(text, context) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.end,
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       Container(
-        padding: EdgeInsets.all(12.0),
-        width: 200.0,
+        constraints:
+            BoxConstraints(maxHeight: MediaQuery.of(context).size.height - 120),
+        padding: EdgeInsets.all(8.0),
+        width: MediaQuery.of(context).size.width / 2,
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(8.0))),
-        child: Text(speech),
+        child: AutoSizeText(
+          text,
+          textDirection: TextDirection.rtl,
+          style: TextStyle(fontSize: 20.0),
+        ),
       ),
       Image.asset("assets/chatTail.png"),
       Image.asset("assets/mostefai.png")
