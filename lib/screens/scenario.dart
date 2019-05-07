@@ -42,7 +42,7 @@ class ScenarioState extends State<Scenario> {
                   controller.jumpToPage(controller.page.floor() - 1);
                 },
                 child: Icon(
-                  Icons.arrow_left,
+                  Icons.chevron_left,
                   size: 48.0,
                 ),
               ),
@@ -51,7 +51,7 @@ class ScenarioState extends State<Scenario> {
                   controller.jumpToPage(controller.page.floor() + 1);
                 },
                 child: Icon(
-                  Icons.arrow_right,
+                  Icons.chevron_right,
                   size: 48.0,
                 ),
               )

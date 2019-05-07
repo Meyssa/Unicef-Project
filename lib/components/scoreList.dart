@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unicef/model/scores.dart';
 import 'package:unicef/components/scoreTile.dart';
+import 'package:unicef/screens/mainMenu.dart';
 
 class ScoreList extends StatelessWidget {
   @override
@@ -55,15 +56,21 @@ class ScoreList extends StatelessWidget {
             child: Container(
               width: 100.0,
               margin: const EdgeInsets.all(8.0),
-              child: Text(
-                "الرجوع",
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.button,
+              child: Material(
+                borderRadius: BorderRadius.circular(20.0),
+                color: Theme.of(context).primaryColor,
+                child: InkWell(
+                  onTap: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => MainMenu())),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text("الرجوع",
+                        style: Theme.of(context).textTheme.button,
+                        textAlign: TextAlign.center),
+                  ),
+                ),
               ),
             ),
-            decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                borderRadius: BorderRadius.circular(24.0)),
           ),
         ],
       ),

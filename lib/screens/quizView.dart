@@ -147,7 +147,7 @@ class QuizViewState extends State<QuizView>
                       .jumpToPage(widget.pageViewController.page.floor() - 1);
                 },
                 child: Icon(
-                  Icons.arrow_left,
+                  Icons.chevron_left,
                   color: Colors.white,
                   size: 48.0,
                 ),
@@ -158,7 +158,7 @@ class QuizViewState extends State<QuizView>
                       .jumpToPage(widget.pageViewController.page.floor() + 1);
                 },
                 child: Icon(
-                  Icons.arrow_right,
+                  Icons.chevron_right,
                   color: Colors.white,
                   size: 48.0,
                 ),
