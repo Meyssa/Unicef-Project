@@ -5,6 +5,8 @@ import 'package:unicef/components/timerPainer.dart';
 import 'package:unicef/model/quiz.dart';
 import 'package:unicef/model/quizzes.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:unicef/model/globalVar.dart' as globals;
+import 'package:unicef/components/justification.dart';
 
 class QuizView extends StatefulWidget {
   final int quizId;
@@ -29,6 +31,12 @@ class QuizViewState extends State<QuizView>
 
   String get timeRemaining {
     Duration duration = _controller.duration * _controller.value;
+    if (duration.inSeconds == 0) {
+      _controller = new AnimationController(
+          vsync: this, duration: const Duration(seconds: 45))
+        ..reverse();
+    }
+
     return '${duration.inMinutes} ${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
   }
 
@@ -41,6 +49,25 @@ class QuizViewState extends State<QuizView>
     _controller.reverse(
         from: _controller.value == 0.0 ? 1.0 : _controller.value);
     _quiz = quizzes[widget.quizId];
+
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed ||
+          status == AnimationStatus.dismissed) {
+        _controller.stop();
+        setState(() {
+          _answered = true;
+        });
+        showDialog(
+          context: context,
+          builder: (BuildContext context) =>
+              justification(context, _quiz.justification, () {
+                Navigator.pop(context);
+                widget.pageViewController
+                    .jumpToPage(widget.pageViewController.page.floor() + 1);
+              }, link: _quiz.knowMoreLink),
+        );
+      }
+    });
   }
 
   @override
@@ -107,15 +134,27 @@ class QuizViewState extends State<QuizView>
           children: <Widget>[
             Material(
               borderRadius: BorderRadius.all(Radius.circular(18.0)),
-              //color: Colors.white,
-              //borderOnForeground: true,
               child: InkWell(
                 child: answer(context, index, text, myGroup, color),
                 onTap: () {
+                  if (_quiz.correctIndex == index) {
+                    globals.currentPlayer.score +=
+                        (_controller.duration * _controller.value).inSeconds;
+                    globals.correctAnswers += 1;
+                  }
                   setState(() {
                     _answered = true;
                     _controller.stop();
                   });
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) =>
+                        justification(context, _quiz.justification, () {
+                          Navigator.pop(context);
+                          widget.pageViewController.jumpToPage(
+                              widget.pageViewController.page.floor() + 1);
+                        }, link: _quiz.knowMoreLink),
+                  );
                 },
               ),
             ),
@@ -191,25 +230,6 @@ class QuizViewState extends State<QuizView>
             ],
           ),
         ),
-
-        /*_answered
-            ? Material(
-                color: Colors.transparent,
-                child: InkWell(onTap: () {
-                  if (widget.quizId + 2 <= quizzes.length) {
-                    print(widget.quizId);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Scenario(
-                                quizzes[widget.quizId].nextStoryIndex)));
-                  } else {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MainMenu()));
-                  }
-                }),
-              )
-            : Container(height: 0)*/
       ],
     );
   }

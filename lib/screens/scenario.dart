@@ -5,10 +5,17 @@ import 'package:unicef/model/stories.dart';
 import 'package:unicef/screens/quizView.dart';
 import 'package:unicef/model/page.dart';
 import 'package:unicef/screens/finalScore.dart';
+import 'package:unicef/model/player.dart';
+import 'package:unicef/model/globalVar.dart' as globals;
 
 class Scenario extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
+    if (globals.currentPlayer == null) {
+      globals.currentPlayer = new Player(score: 0);
+    }
+    globals.correctAnswers = 0;
+    globals.currentPlayer.score = 0;
     return ScenarioState();
   }
 }
@@ -21,7 +28,7 @@ class ScenarioState extends State<Scenario> {
     _story = stories[0];
   }
 
-  Widget _pageScenario(Page page) {
+  Widget _pageScenario(Page page, int index) {
     return Material(
       child: Stack(
         fit: StackFit.expand,
@@ -37,15 +44,17 @@ class ScenarioState extends State<Scenario> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              InkWell(
-                onTap: () {
-                  controller.jumpToPage(controller.page.floor() - 1);
-                },
-                child: Icon(
-                  Icons.chevron_left,
-                  size: 48.0,
-                ),
-              ),
+              index != 0
+                  ? InkWell(
+                      onTap: () {
+                        controller.jumpToPage(controller.page.floor() - 1);
+                      },
+                      child: Icon(
+                        Icons.chevron_left,
+                        size: 48.0,
+                      ),
+                    )
+                  : Container(),
               InkWell(
                 onTap: () {
                   controller.jumpToPage(controller.page.floor() + 1);
@@ -70,7 +79,7 @@ class ScenarioState extends State<Scenario> {
     while (i < stories.length) {
       _story = stories[i];
       while (j < _story.pages.length) {
-        _pages.add(_pageScenario(_story.pages[j]));
+        _pages.add(_pageScenario(_story.pages[j], i + j));
         j++;
       }
       _pages.add(QuizView(
@@ -81,53 +90,5 @@ class ScenarioState extends State<Scenario> {
     _pages.add(FinalScore());
 
     return PageView(controller: controller, children: _pages);
-
-/*    return Material(
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            if (!_story.hasNext)
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      QuizView(_story.questionId, _story.background),
-                ),
-              );
-            else {
-              print('hi');
-              _currentId = _currentId + 1;
-              _story = stories[_currentId];
-            }
-          });
-        },
-        child: Stack(
-          fit: StackFit.expand,
-          children: <Widget>[
-            Image.asset(
-              _story.background,
-              centerSlice: Rect.largest,
-            ),
-            Container(
-              margin: EdgeInsets.only(left: 32.0),
-              child: dialog(_story.dialog, context),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Icon(
-                  Icons.arrow_left,
-                  size: 48.0,
-                ),
-                Icon(
-                  Icons.arrow_right,
-                  size: 48.0,
-                )
-              ],
-            )
-          ],
-        ),
-      ),
-    );*/
   }
 }

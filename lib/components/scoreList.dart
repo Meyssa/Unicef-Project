@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:unicef/model/scores.dart';
 import 'package:unicef/components/scoreTile.dart';
 import 'package:unicef/screens/mainMenu.dart';
+import 'package:unicef/model/player.dart';
+import 'package:unicef/model/database_helper.dart';
+import 'package:unicef/model/globalVar.dart' as globals;
 
 class ScoreList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Widget _buildScoreTile(BuildContext context, int index) {
-      return scoreTile(scores[index].rank.toString(), scores[index].name,
-          scores[index].score.toString());
-    }
-
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24.0),
@@ -39,6 +36,7 @@ class ScoreList extends StatelessWidget {
             height: 18.0,
           ),
           Row(
+            //TODO : make this look like the score Tile or the opposite
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text("النتيجة "),
@@ -47,9 +45,33 @@ class ScoreList extends StatelessWidget {
             ],
           ),
           Expanded(
-            child: ListView.builder(
-              itemBuilder: _buildScoreTile,
-              itemCount: scores.length,
+            child: FutureBuilder<List<Player>>(
+              future: DBProvider.db.getAllPlayers(),
+              builder:
+                  (BuildContext context, AsyncSnapshot<List<Player>> snapshot) {
+                if (snapshot.hasData) {
+                  snapshot.data.sort((a, b) => a.score.compareTo(b.score));
+                  snapshot.data.reversed;
+                  return ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      Player item =
+                          snapshot.data[snapshot.data.length - 1 - index];
+                      print(item);
+                      return Dismissible(
+                          key: UniqueKey(),
+                          background: Container(color: Colors.red),
+                          onDismissed: (direction) {
+                            DBProvider.db.deletePlayer(item.id);
+                          },
+                          child: scoreTile(
+                              (index + 1).toString(), item.name, item.score));
+                    },
+                  );
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
             ),
           ),
           Container(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:unicef/screens/mainMenu.dart';
+import 'package:unicef/model/database_helper.dart';
 
 class ParamMenu extends StatefulWidget {
   @override
@@ -9,11 +10,9 @@ class ParamMenu extends StatefulWidget {
 }
 
 class ParamMenuState extends State<ParamMenu> {
-  TextEditingController _controller;
   @override
   void initState() {
     super.initState();
-    _controller = new TextEditingController(text: 'ميساء');
   }
 
   @override
@@ -44,32 +43,13 @@ class ParamMenuState extends State<ParamMenu> {
                 borderRadius: BorderRadius.circular(24.0)),
           ),
           Container(
-            height: 100,
+            height: 50,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Container(
-                      width: 240.0,
-                      child: Padding(
-                        padding: const EdgeInsets.all(6.0),
-                        child: TextField(
-                            textAlign: TextAlign.center,
-                            textDirection: TextDirection.rtl,
-                            controller: _controller,
-                            decoration:
-                                InputDecoration.collapsed(hintText: "")),
-                      ),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(24.0),
-                          border: Border.all(
-                              color: Theme.of(context).primaryColor)),
-                    ),
-                    SizedBox(
-                      height: 22.0,
-                    ),
                     Row(
                       children: <Widget>[
                         Container(
@@ -113,12 +93,25 @@ class ParamMenuState extends State<ParamMenu> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    Text("تغيير إسم المستخدم"),
-                    Text("تغيير اللغة")
+                    Text(
+                      "تغيير اللغة",
+                    )
                   ],
                 ),
               ],
             ),
+          ),
+          Container(
+            child: FlatButton(
+              onPressed: () async {
+                await DBProvider.db.deleteAll();
+              },
+              child:
+                  Text("حذف جميع النتائج", style: TextStyle(color: Colors.red)),
+            ),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.red),
+                borderRadius: BorderRadius.circular(24.0)),
           ),
           Align(
             alignment: Alignment.bottomCenter,
@@ -139,7 +132,7 @@ class ParamMenuState extends State<ParamMenu> {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

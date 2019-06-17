@@ -7,7 +7,7 @@ scoreTile(rank, name, score) {
       Container(
         width: 64.0,
         child: Text(
-          score,
+          score.toString(),
           textAlign: TextAlign.center,
           textDirection: TextDirection.rtl,
         ),
@@ -15,7 +15,7 @@ scoreTile(rank, name, score) {
       Container(
         width: 64.0,
         child: Text(
-          name,
+          name.toString(),
           textAlign: TextAlign.center,
           textDirection: TextDirection.rtl,
         ),
@@ -23,7 +23,7 @@ scoreTile(rank, name, score) {
       Container(
         width: 64.0,
         child: Text(
-          rank,
+          rank.toString(),
           textAlign: TextAlign.center,
           textDirection: TextDirection.rtl,
         ),

@@ -8,7 +8,7 @@ dialog(text, context) {
     children: <Widget>[
       Container(
         constraints:
-            BoxConstraints(maxHeight: MediaQuery.of(context).size.height - 120),
+            BoxConstraints(maxHeight: MediaQuery.of(context).size.height - 180),
         padding: EdgeInsets.all(8.0),
         width: MediaQuery.of(context).size.width / 2,
         decoration: BoxDecoration(
