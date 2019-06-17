@@ -61,10 +61,10 @@ class MainMenuState extends State<MainMenu> {
                     textDirection: TextDirection.rtl,
                     controller: _controller,
                     onSubmitted: (name) async {
-                      int id;
                       if (name != "") {
-                        id = await DBProvider.db
-                            .newPlayer(Player(name: name, score: 0));
+                        int id;
+                        id = await DBProvider.db.newPlayer(
+                            Player(name: _controller.text, score: 0));
                         globals.currentPlayer =
                             Player(name: _controller.text, score: 0, id: id);
                         globals.update = true;

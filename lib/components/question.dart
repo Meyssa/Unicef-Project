@@ -14,7 +14,7 @@ question(context, id, timer) {
         Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: Text(
-            "${id + 1} السؤال ",
+            " السؤال ${id + 1}",
             style: Theme.of(context).textTheme.title,
             textDirection: TextDirection.rtl,
           ),
